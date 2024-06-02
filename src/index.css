@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities"; */
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -79,19 +84,19 @@ body {
   font-family: Arial, sans-serif;
 }
 
-#cube {
-  display: grid;
-  /* grid-template-columns: repeat(12, 50px); */
-  grid-gap: 2px;
-}
+/* #cube { */
+/* display: grid; */
+/* grid-template-columns: repeat(12, 50px); */
+/* grid-gap: 2px; */
+/* } */
 
-.face {
+.side {
   display: grid;
   grid-template-columns: repeat(3, 50px);
   grid-gap: 2px;
 }
 
-.face div {
+.side div {
   width: 50px;
   height: 50px;
   background-color: gray;
