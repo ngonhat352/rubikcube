@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -66,4 +70,37 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+#cube {
+  display: grid;
+  /* grid-template-columns: repeat(12, 50px); */
+  grid-gap: 2px;
+}
+
+.face {
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  grid-gap: 2px;
+}
+
+.face div {
+  width: 50px;
+  height: 50px;
+  background-color: gray;
+}
+
+#controls {
+  margin-top: 20px;
+}
+
+.rotation-controls {
+  margin-bottom: 10px;
 }
