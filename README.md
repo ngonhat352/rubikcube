@@ -1,5 +1,7 @@
 # rubikcube project
 
+https://rubikcube-qjolv8don-ngonhat352s-projects.vercel.app/
+
 ## Commands to run:
 
 ```
