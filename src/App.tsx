@@ -14,61 +14,60 @@ function App() {
     D: ["Y1", "Y2", "Y3", "Y4", "Y5", "Y6", "Y7", "Y8", "Y9"],
   } as RubikArray);
 
-  // const rotateFace = (
-  //   face: string,
-  //   direction: "clockwise" | "counterclockwise"
-  // ) => {
-  //   const newFaces = { ...faces };
-  //   if (direction === "clockwise") {
-  //     newFaces[face] = [
-  //       newFaces[face][6],
-  //       newFaces[face][3],
-  //       newFaces[face][0],
-  //       newFaces[face][7],
-  //       newFaces[face][4],
-  //       newFaces[face][1],
-  //       newFaces[face][8],
-  //       newFaces[face][5],
-  //       newFaces[face][2],
-  //     ];
-  //   } else {
-  //     newFaces[face] = [
-  //       newFaces[face][2],
-  //       newFaces[face][5],
-  //       newFaces[face][8],
-  //       newFaces[face][1],
-  //       newFaces[face][4],
-  //       newFaces[face][7],
-  //       newFaces[face][0],
-  //       newFaces[face][3],
-  //       newFaces[face][6],
-  //     ];
-  //   }
-  //   // TODO: updateAdjacentFaces(face, direction) to modify adjacent faces
-  //   setFaces(newFaces);
-  // };
-
   return (
-    <div>
+    <div className="w-full flex flex-col items-center">
       <Cube rubikArray={rubikArray} />
-      <div id="controls">
-        <div className="rotation-controls">
-          <button onClick={() => rotate("U", rubikArray, setRubikArray)}>
-            Rotate U Clockwise
-          </button>
-          <button onClick={() => rotate("Uc", rubikArray, setRubikArray)}>
-            Rotate U Counterclockwise
-          </button>
-        </div>
-        <div className="rotation-controls">
+      <div className="!mt-[40px] flex flex-row gap-2">
+        <div className="flex flex-col gap-2">
           <button onClick={() => rotate("F", rubikArray, setRubikArray)}>
-            Rotate F Clockwise
+            F
           </button>
           <button onClick={() => rotate("Fc", rubikArray, setRubikArray)}>
-            Rotate F Counterclockwise
+            Fc
           </button>
         </div>
-        {/* Add more buttons for other faces if needed */}
+        <div className="flex flex-col gap-2">
+          <button onClick={() => rotate("R", rubikArray, setRubikArray)}>
+            R
+          </button>
+          <button onClick={() => rotate("Rc", rubikArray, setRubikArray)}>
+            Rc
+          </button>
+        </div>
+        <div className="flex flex-col gap-2">
+          <button onClick={() => rotate("U", rubikArray, setRubikArray)}>
+            U
+          </button>
+          <button onClick={() => rotate("Uc", rubikArray, setRubikArray)}>
+            Uc
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <button onClick={() => rotate("B", rubikArray, setRubikArray)}>
+            B
+          </button>
+          <button onClick={() => rotate("Bc", rubikArray, setRubikArray)}>
+            Bc
+          </button>
+        </div>
+        <div className="flex flex-col gap-2">
+          <button onClick={() => rotate("L", rubikArray, setRubikArray)}>
+            L
+          </button>
+          <button onClick={() => rotate("Lc", rubikArray, setRubikArray)}>
+            Lc
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <button onClick={() => rotate("D", rubikArray, setRubikArray)}>
+            D
+          </button>
+          <button onClick={() => rotate("Dc", rubikArray, setRubikArray)}>
+            Dc
+          </button>
+        </div>
       </div>
     </div>
   );

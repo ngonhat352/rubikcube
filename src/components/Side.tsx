@@ -22,7 +22,6 @@ const mapNameToColor = (startingLetter: "W" | "O" | "G" | "R" | "B" | "Y") => {
   }
 };
 const Side: React.FC<SideProps> = ({ name, cells }) => {
-  console.log({ cells });
   return (
     <div className="side">
       {cells.map((cell, index) => (
