@@ -1,7 +1,6 @@
 import React from "react";
 
 interface SideProps {
-  name: string;
   cells: string[];
 }
 
@@ -21,9 +20,9 @@ const mapNameToColor = (startingLetter: "W" | "O" | "G" | "R" | "B" | "Y") => {
       return "yellow";
   }
 };
-const Side: React.FC<SideProps> = ({ name, cells }) => {
+const Side: React.FC<SideProps> = ({ cells }) => {
   return (
-    <div className="side">
+    <div className="side !rounded-[15px]">
       {cells.map((cell, index) => (
         <div
           key={index}

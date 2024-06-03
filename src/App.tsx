@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
+import { flat, rubikcube } from "./assets";
 import Cube from "./components/Cube";
+import Cube3D from "./components/Cube3d";
 import { RubikArray } from "./types/RubikArray";
 import { rotate } from "./utils/rotate";
 
@@ -14,9 +16,27 @@ function App() {
     D: ["Y1", "Y2", "Y3", "Y4", "Y5", "Y6", "Y7", "Y8", "Y9"],
   } as RubikArray);
 
+  const tabs = [0, 1];
+  const [selectedTab, setSelectedTab] = useState(tabs[1]);
+
   return (
     <div className="w-full flex flex-col items-center">
-      <Cube rubikArray={rubikArray} />
+      <div className="flex flex-row gap-2">
+        <button onClick={() => setSelectedTab(tabs[0])}>
+          <img
+            src={rubikcube}
+            className="!w-[30px] !h-[30px] !max-w-[30px] !max-h-[30px]"
+          />
+        </button>
+        <button onClick={() => setSelectedTab(tabs[1])}>
+          <img
+            src={flat}
+            className="!w-[30px] !h-[30px] !max-w-[30px] !max-h-[30px]"
+          />
+        </button>
+      </div>
+      {selectedTab == tabs[0] && <Cube3D />}
+      {selectedTab == tabs[1] && <Cube rubikArray={rubikArray} />}
       <div className="!mt-[40px] flex flex-row gap-2">
         <div className="flex flex-col gap-2">
           <button onClick={() => rotate("F", rubikArray, setRubikArray)}>
