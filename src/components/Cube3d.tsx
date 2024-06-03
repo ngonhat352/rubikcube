@@ -4,9 +4,11 @@ import TWEEN from "@tweenjs/tween.js";
 import { Ref, useMemo, useRef } from "react";
 import { Group, Object3DEventMap, Vector3 } from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { useRubikContext } from "../context/RubikArrayContext";
 
-function Cube({ command, setCommand }) {
-  console.log({ command });
+function Cube() {
+  const { command3d, setCommand3d } = useRubikContext();
+
   const ref = useRef();
   const rotationGroup = useRef();
 
@@ -15,9 +17,13 @@ function Cube({ command, setCommand }) {
   }, []);
 
   useFrame(() => {
-    if (command) {
-      mapCommandToRotation(command, ref, rotationGroup);
-      setCommand("");
+    if (command3d) {
+      mapCommandToRotation(
+        command3d,
+        ref.current as unknown as Group<Object3DEventMap>,
+        rotationGroup.current as unknown as Group<Object3DEventMap>
+      );
+      setCommand3d("");
     }
     TWEEN.update();
   });
@@ -64,18 +70,6 @@ function Cubelet({
   position: number[];
   geometry: RoundedBoxGeometry;
 }) {
-  // console.log({ position });
-  // [...Array(6).keys()].map((i) => {
-  //   console.log("i =", i);
-  //   console.log("position", position[colorSides[i][0] as number]);
-  //   console.log(
-  //     "color",
-  //     position[colorSides[i][0] as number] === colorSides[i][1]
-  //       ? colorSides[i][2]
-  //       : `black`
-  //   );
-  // });
-
   return (
     <>
       <mesh position={position as unknown as Vector3} geometry={geometry}>
@@ -95,7 +89,10 @@ function Cubelet({
   );
 }
 
-function resetCubeGroup(cubeGroup, rotationGroup) {
+function resetCubeGroup(
+  cubeGroup: Group<Object3DEventMap>,
+  rotationGroup: Group<Object3DEventMap>
+) {
   rotationGroup.children
     .slice()
     .reverse()
@@ -105,7 +102,12 @@ function resetCubeGroup(cubeGroup, rotationGroup) {
   rotationGroup.quaternion.set(0, 0, 0, 1);
 }
 
-function attachToRotationGroup(cubeGroup, rotationGroup, axis, limit) {
+function attachToRotationGroup(
+  cubeGroup: Group<Object3DEventMap>,
+  rotationGroup: Group<Object3DEventMap>,
+  axis: "x" | "y" | "z",
+  limit: number
+) {
   cubeGroup.children
     .slice()
     .reverse()
@@ -117,7 +119,11 @@ function attachToRotationGroup(cubeGroup, rotationGroup, axis, limit) {
     });
 }
 
-function animateRotationGroup(rotationGroup, axis, multiplier) {
+function animateRotationGroup(
+  rotationGroup: Group<Object3DEventMap>,
+  axis: "x" | "y" | "z",
+  multiplier: number
+) {
   new TWEEN.Tween(rotationGroup.rotation)
     .to(
       {
@@ -129,7 +135,13 @@ function animateRotationGroup(rotationGroup, axis, multiplier) {
     .start();
 }
 
-function rotate(cubeGroup, rotationGroup, axis, limit, multiplier) {
+function rotate(
+  cubeGroup: Group<Object3DEventMap>,
+  rotationGroup: Group<Object3DEventMap>,
+  axis: "x" | "y" | "z",
+  limit: number,
+  multiplier: number
+) {
   if (!TWEEN.getAll().length) {
     resetCubeGroup(cubeGroup, rotationGroup);
     attachToRotationGroup(cubeGroup, rotationGroup, axis, limit);
@@ -137,54 +149,57 @@ function rotate(cubeGroup, rotationGroup, axis, limit, multiplier) {
   }
 }
 
-function mapCommandToRotation(command, cubeGroup, rotationGroup) {
+function mapCommandToRotation(
+  command: string,
+  cubeGroup: Group<Object3DEventMap>,
+  rotationGroup: Group<Object3DEventMap>
+) {
   switch (command) {
     case "F":
-      rotate(cubeGroup.current, rotationGroup.current, "z", 0.5, -1);
+      rotate(cubeGroup, rotationGroup, "z", 0.5, -1);
       return;
     case "Fc":
-      rotate(cubeGroup.current, rotationGroup.current, "z", 0.5, 1);
+      rotate(cubeGroup, rotationGroup, "z", 0.5, 1);
       return;
     case "B":
-      rotate(cubeGroup.current, rotationGroup.current, "z", -0.5, 1);
+      rotate(cubeGroup, rotationGroup, "z", -0.5, 1);
       return;
     case "Bc":
-      rotate(cubeGroup.current, rotationGroup.current, "z", -0.5, -1);
+      rotate(cubeGroup, rotationGroup, "z", -0.5, -1);
       return;
 
     case "R":
-      rotate(cubeGroup.current, rotationGroup.current, "x", 0.5, -1);
+      rotate(cubeGroup, rotationGroup, "x", 0.5, -1);
       return;
     case "Rc":
-      rotate(cubeGroup.current, rotationGroup.current, "x", 0.5, 1);
+      rotate(cubeGroup, rotationGroup, "x", 0.5, 1);
       return;
     case "L":
-      rotate(cubeGroup.current, rotationGroup.current, "x", -0.5, 1);
+      rotate(cubeGroup, rotationGroup, "x", -0.5, 1);
       return;
     case "Lc":
-      rotate(cubeGroup.current, rotationGroup.current, "x", -0.5, -1);
+      rotate(cubeGroup, rotationGroup, "x", -0.5, -1);
       return;
 
     case "U":
-      rotate(cubeGroup.current, rotationGroup.current, "y", 0.5, -1);
+      rotate(cubeGroup, rotationGroup, "y", 0.5, -1);
       return;
     case "Uc":
-      rotate(cubeGroup.current, rotationGroup.current, "y", 0.5, 1);
+      rotate(cubeGroup, rotationGroup, "y", 0.5, 1);
       return;
     case "D":
-      rotate(cubeGroup.current, rotationGroup.current, "y", -0.5, 1);
+      rotate(cubeGroup, rotationGroup, "y", -0.5, 1);
       return;
     case "Dc":
-      rotate(cubeGroup.current, rotationGroup.current, "y", -0.5, -1);
+      rotate(cubeGroup, rotationGroup, "y", -0.5, -1);
       return;
   }
 }
 
-export default function Cube3d({ command, setCommand }) {
-  console.log("cube3d command", command);
+export default function Cube3d() {
   return (
-    <Canvas camera={{ position: [3, 3, 3] }}>
-      <Cube command={command} setCommand={setCommand} />
+    <Canvas camera={{ position: [3, 3, 3] }} className="!h-[486px]">
+      <Cube />
       <OrbitControls target={[0, 0, 0]} />
     </Canvas>
   );
