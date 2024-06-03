@@ -1,55 +1,25 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import TWEEN from "@tweenjs/tween.js";
-import { button, useControls } from "leva";
 import { Ref, useMemo, useRef } from "react";
 import { Group, Object3DEventMap, Vector3 } from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-function Buttons({
-  cubeGroup,
-}: {
-  cubeGroup: React.MutableRefObject<Group | undefined>;
-}) {
+function Cube({ command, setCommand }) {
+  console.log({ command });
+  const ref = useRef();
   const rotationGroup = useRef();
 
-  useControls("Cube", {
-    "Left CW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "x", -0.5, 1);
-    }),
-    "Left CCW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "x", -0.5, -1);
-    }),
-    "Right CW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "x", 0.5, -1);
-    }),
-    "Right CCW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "x", 0.5, 1);
-    }),
-    "Back CW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "z", -0.5, 1);
-    }),
-    "Back CCW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "z", -0.5, -1);
-    }),
-    "Front CW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "z", 0.5, -1);
-    }),
-    "Front CCW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "z", 0.5, 1);
-    }),
-    "Top CW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "y", 0.5, -1);
-    }),
-    "Top CCW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "y", 0.5, 1);
-    }),
-    "Bottom CW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "y", -0.5, 1);
-    }),
-    "Bottom CCW": button(() => {
-      rotate(cubeGroup.current, rotationGroup.current, "y", -0.5, -1);
-    }),
+  const roundedBoxGeometry = useMemo(() => {
+    return new RoundedBoxGeometry(1, 1, 1, 3, 0.1);
+  }, []);
+
+  useFrame(() => {
+    if (command) {
+      mapCommandToRotation(command, ref, rotationGroup);
+      setCommand("");
+    }
+    TWEEN.update();
   });
 
   return (
@@ -59,23 +29,6 @@ function Buttons({
           rotationGroup as unknown as Ref<Group<Object3DEventMap>> | undefined
         }
       />
-    </>
-  );
-}
-
-function Cube() {
-  const ref = useRef();
-
-  const roundedBoxGeometry = useMemo(() => {
-    return new RoundedBoxGeometry(1, 1, 1, 3, 0.1);
-  }, []);
-
-  useFrame(() => {
-    TWEEN.update();
-  });
-
-  return (
-    <>
       <group ref={ref as unknown as Ref<Group<Object3DEventMap>> | undefined}>
         {[...Array(3).keys()].map((x) =>
           [...Array(3).keys()].map((y) =>
@@ -89,20 +42,19 @@ function Cube() {
           )
         )}
       </group>
-      <Buttons cubeGroup={ref} />
     </>
   );
 }
 
 const colorSides = [
-  [0, 1, "orange"],
-  [0, -1, "red"],
+  [0, 1, "red"], //right
+  [0, -1, "orange"], //left
 
-  [1, 1, "white"],
-  [1, -1, "yellow"],
+  [1, 1, "white"], //up
+  [1, -1, "yellow"], //down
 
-  [2, 1, "green"],
-  [2, -1, "blue"],
+  [2, 1, "green"], //front
+  [2, -1, "blue"], //back
 ];
 
 function Cubelet({
@@ -112,17 +64,17 @@ function Cubelet({
   position: number[];
   geometry: RoundedBoxGeometry;
 }) {
-  console.log({ position });
-  [...Array(6).keys()].map((i) => {
-    console.log("i =", i);
-    console.log("position", position[colorSides[i][0] as number]);
-    console.log(
-      "color",
-      position[colorSides[i][0] as number] === colorSides[i][1]
-        ? colorSides[i][2]
-        : `black`
-    );
-  });
+  // console.log({ position });
+  // [...Array(6).keys()].map((i) => {
+  //   console.log("i =", i);
+  //   console.log("position", position[colorSides[i][0] as number]);
+  //   console.log(
+  //     "color",
+  //     position[colorSides[i][0] as number] === colorSides[i][1]
+  //       ? colorSides[i][2]
+  //       : `black`
+  //   );
+  // });
 
   return (
     <>
@@ -185,10 +137,54 @@ function rotate(cubeGroup, rotationGroup, axis, limit, multiplier) {
   }
 }
 
-export default function Cube3d() {
+function mapCommandToRotation(command, cubeGroup, rotationGroup) {
+  switch (command) {
+    case "F":
+      rotate(cubeGroup.current, rotationGroup.current, "z", 0.5, -1);
+      return;
+    case "Fc":
+      rotate(cubeGroup.current, rotationGroup.current, "z", 0.5, 1);
+      return;
+    case "B":
+      rotate(cubeGroup.current, rotationGroup.current, "z", -0.5, 1);
+      return;
+    case "Bc":
+      rotate(cubeGroup.current, rotationGroup.current, "z", -0.5, -1);
+      return;
+
+    case "R":
+      rotate(cubeGroup.current, rotationGroup.current, "x", 0.5, -1);
+      return;
+    case "Rc":
+      rotate(cubeGroup.current, rotationGroup.current, "x", 0.5, 1);
+      return;
+    case "L":
+      rotate(cubeGroup.current, rotationGroup.current, "x", -0.5, 1);
+      return;
+    case "Lc":
+      rotate(cubeGroup.current, rotationGroup.current, "x", -0.5, -1);
+      return;
+
+    case "U":
+      rotate(cubeGroup.current, rotationGroup.current, "y", 0.5, -1);
+      return;
+    case "Uc":
+      rotate(cubeGroup.current, rotationGroup.current, "y", 0.5, 1);
+      return;
+    case "D":
+      rotate(cubeGroup.current, rotationGroup.current, "y", -0.5, 1);
+      return;
+    case "Dc":
+      rotate(cubeGroup.current, rotationGroup.current, "y", -0.5, -1);
+      return;
+  }
+}
+
+export default function Cube3d({ command, setCommand }) {
+  console.log("cube3d command", command);
   return (
     <Canvas camera={{ position: [3, 3, 3] }}>
-      <Cube />
+      <Cube command={command} setCommand={setCommand} />
       <OrbitControls target={[0, 0, 0]} />
     </Canvas>
   );

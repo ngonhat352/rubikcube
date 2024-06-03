@@ -1,5 +1,13 @@
 import { RubikArray } from "../types/RubikArray";
 
+/*
+ *                third column of up              <------
+ *                        V                             |
+ *                third column of front                 |
+ *                        V                             |
+ *                third column of down         first column of back
+ *                         -----------------------------^
+ */
 export const rotateEdgesRightCounter = (rubikArray: RubikArray) => {
   let newRubikArray = { ...rubikArray };
 

@@ -1,19 +1,27 @@
 import { RubikArray, Side } from "../types/RubikArray";
 
+/*
+  Face: 
+    O X O
+    X _ X
+    O X O
+  => Rotate the 4 corners counterClockwise (the Os)
+  => Rotate the 4 middle cells counterClockwise (the Xs)
+ */
 export const rotateFaceCounterClockwise = (
   face: Side,
   rubikArray: RubikArray
 ): RubikArray => {
   let newRubikArray = { ...rubikArray };
 
-  // ROTATE CROSS
+  // Rotate the 4 middle cells
   var tempCross = newRubikArray[face][3];
   newRubikArray[face][3] = newRubikArray[face][1];
   newRubikArray[face][1] = newRubikArray[face][5];
   newRubikArray[face][5] = newRubikArray[face][7];
   newRubikArray[face][7] = tempCross;
 
-  // ROTATE DIAGONALS
+  // Rotate the 4 corners
   var tempDiagonal = newRubikArray[face][8];
   newRubikArray[face][8] = newRubikArray[face][6];
   newRubikArray[face][6] = newRubikArray[face][0];

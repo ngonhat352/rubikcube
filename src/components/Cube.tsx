@@ -1,10 +1,12 @@
-import React from "react";
-import { RubikArray } from "../types/RubikArray";
+import { useRubikContext } from "../context/RubikArrayContext";
 import Side from "./Side";
 
-const Cube: React.FC<{ rubikArray: RubikArray }> = ({ rubikArray }) => {
+export default function Cube() {
+  const { rubikArray } = useRubikContext();
+
   return (
-    <div id="cube" className="flex flex-col !gap-[2px]">
+    <div id="cube" className="flex flex-col !gap-[2px] mt-[20px]">
+      {/* Up side */}
       {Object.keys(rubikArray).map(
         (side) =>
           side == "U" && (
@@ -17,6 +19,8 @@ const Cube: React.FC<{ rubikArray: RubikArray }> = ({ rubikArray }) => {
             </div>
           )
       )}
+
+      {/* left - front - right - back sides */}
       <div className="flex flex-row gap-[2px]" key={"mid"}>
         {Object.keys(rubikArray).map(
           (side) =>
@@ -25,6 +29,8 @@ const Cube: React.FC<{ rubikArray: RubikArray }> = ({ rubikArray }) => {
             )
         )}
       </div>
+
+      {/* Down side */}
       {Object.keys(rubikArray).map(
         (side) =>
           side == "D" && (
@@ -36,6 +42,4 @@ const Cube: React.FC<{ rubikArray: RubikArray }> = ({ rubikArray }) => {
       )}
     </div>
   );
-};
-
-export default Cube;
+}

@@ -1,5 +1,8 @@
 import { RubikArray } from "../types/RubikArray";
 
+/*
+ *  <- Third row of left <- Third row of front <- Third row of right <- third row of back <-
+ */
 export const rotateEdgesDownCounter = (rubikArray: RubikArray) => {
   let newRubikArray = { ...rubikArray };
 

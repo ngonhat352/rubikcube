@@ -20,63 +20,64 @@ export const rotate = (
   setRubikArray: React.Dispatch<React.SetStateAction<RubikArray>>
 ) => {
   let _rubikArray;
+
   switch (type) {
-    case "F":
+    case "F": // front clockwise
       _rubikArray = rotateEdgesFront(rubikArray);
       setRubikArray(rotateFaceClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "Fc":
+    case "Fc": // front counterClockwise
       _rubikArray = rotateEdgesFrontCounter(rubikArray);
       setRubikArray(rotateFaceCounterClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "U":
+    case "U": // up clockwise
       _rubikArray = rotateEdgesUp(rubikArray);
       setRubikArray(rotateFaceClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "Uc":
+    case "Uc": // up counterClockwise
       _rubikArray = rotateEdgesUpCounter(rubikArray);
       setRubikArray(rotateFaceCounterClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "B":
+    case "B": // back clockwise
       _rubikArray = rotateEdgesBack(rubikArray);
       setRubikArray(rotateFaceClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "Bc":
+    case "Bc": // back counterClockwise
       _rubikArray = rotateEdgesBackCounter(rubikArray);
       setRubikArray(rotateFaceCounterClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "L":
+    case "L": // left clockwise
       _rubikArray = rotateEdgesLeft(rubikArray);
       setRubikArray(rotateFaceClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "Lc":
+    case "Lc": // left counterClockwise
       _rubikArray = rotateEdgesLeftCounter(rubikArray);
       setRubikArray(rotateFaceCounterClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "R":
+    case "R": // right clockwise
       _rubikArray = rotateEdgesRight(rubikArray);
       setRubikArray(rotateFaceClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "Rc":
+    case "Rc": // right counterClockwise
       _rubikArray = rotateEdgesRightCounter(rubikArray);
       setRubikArray(rotateFaceCounterClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "D":
+    case "D": // down clockwise
       _rubikArray = rotateEdgesDown(rubikArray);
       setRubikArray(rotateFaceClockwise(type[0] as Side, _rubikArray));
       return;
 
-    case "Dc":
+    case "Dc": // down counterClockwise
       _rubikArray = rotateEdgesDownCounter(rubikArray);
       setRubikArray(rotateFaceCounterClockwise(type[0] as Side, _rubikArray));
       return;
