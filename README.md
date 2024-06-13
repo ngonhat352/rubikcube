@@ -1,6 +1,6 @@
 # rubikcube project
 
-https://rubikcube-qjolv8don-ngonhat352s-projects.vercel.app/
+https://rubikcube-ebon.vercel.app/
 
 ## Commands to run:
 
